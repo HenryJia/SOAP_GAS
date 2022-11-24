@@ -3,7 +3,12 @@
 
 import pandas as pd
 
-from refactoring import GeneParameters, Individual, Population
+from quippy import descriptors
+
+from refactoring import GeneParameters
+from utils import load_xyz
+
+from tqdm import tqdm
 
 descDict1 = {
     'lower': 1, 'upper': 50, 'centres': '{8, 7, 6, 1, 16, 17, 9}',
@@ -23,9 +28,25 @@ params1 = GeneParameters(**descDict1)
 
 example_gene_set = params1.make_gene_set()
 
-pd.read_csv('BBBP_clean.csv')
+df = pd.read_csv('BBBP/BBBP_clean.csv')
 
 print(params1)
 print(example_gene_set)
 print(example_gene_set.gene_parameters)
 print(example_gene_set.get_soap_string())
+
+xyz = []
+for i, row in tqdm(df.iterrows(), total=df.shape[0]):
+    xyz.append(load_xyz('BBBP/xyz/' + str(row['num']) + '.xyz'))
+
+df = df.assign(xyz=xyz)
+print(df.head())
+
+#soaps = comp_soaps([params1], df['xyz'])
+soaps = []
+for i, row in tqdm(df.iterrows(), total=df.shape[0]):
+    soaps.append(descriptors.Descriptor(example_gene_set.get_soap_string()).calc(row['xyz']))
+
+df = df.assign(soaps=soaps)
+
+print(df.head())

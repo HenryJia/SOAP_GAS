@@ -679,21 +679,20 @@ def comp_score(soaps, targets):
     pass
 
 
-def comp_soaps(parameter_string_list, conf_s, data):
+def comp_soaps(parameter_string_list, mols_xyz):
     """
     Function to compute the Soaps, maybe add to the Individual class?
     """
     pass
-    # Actual function commented out while testing that everything works.
-    # soap_array = []
-    # targets = np.array(data["Target"])
-    # for mol in conf_s:
-    #     soap = []
-    #     for parameter_string in parameter_string_list:
-    #         soap += list(descriptors.Descriptor(parameter_string).calc(
-    #         mol)['data'][0])
-    #     soap_array.append(soap)
-    # return np.array(soap_array), np.array(targets)
+    soap_array = []
+    for mol in mols_xyz:
+        soap = []
+        for parameter_string in parameter_string_list:
+            import pdb; pdb.set_trace()
+            foo = descriptors.Descriptor(parameter_string).calc(mol)
+            soap += list(foo)
+        soap_array.append(soap)
+    return np.concatenate(soap_array, axis=0)
 
 
 def get_conf():
