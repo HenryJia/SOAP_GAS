@@ -21,12 +21,13 @@ pytz = "==2022.5"
 quippy-ase = "==0.9.10"
 scipy = "==1.9.3"
 six = "==1.16.0"
-sklearn = "*"
+scikit-learn = "*"
 tensorflow = "*"
+openbabel = "*"
 
 [dev-packages]
 notebook = "*"
 
 [requires]
 python_version = "3.9"
-python_full_version = "3.9.6"
+#python_full_version = "3.9.6"
